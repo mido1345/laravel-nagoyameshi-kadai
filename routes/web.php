@@ -23,4 +23,6 @@ require __DIR__.'/auth.php';
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function () {
     Route::get('home', [Admin\HomeController::class, 'index'])->name('home');
+
+    Route::resource('users', UserController::class);
 });
