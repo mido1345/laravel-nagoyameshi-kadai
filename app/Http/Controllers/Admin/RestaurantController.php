@@ -52,11 +52,9 @@ class RestaurantController extends Controller
         $restaurant = new Restaurant();
         $restaurant->name = $request->input('name');
 
-        // アップロードされたファイル（name="image"）が存在すれば処理を実行する
+        
         if ($request->hasFile('image')) {
-            // アップロードされたファイル（name="image"）をstorage/app/public/restaurantsフォルダに保存し、戻り値（ファイルパス）を変数$image_pathに代入する
             $image_path = $request->file('image')->store('public/restaurants');
-            // ファイルパスからファイル名のみを取得し、restaurantsインスタンスのimage_nameプロパティに代入する
             $product->image_name = basename($image_path);
         }
         else {
