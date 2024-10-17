@@ -37,7 +37,7 @@ class RestaurantController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required',
             'image' => 'file|mimes:jpg,jpeg,png,bmp,gif,svg,webp|max:2048',
             'description' => 'required',
             'lowest_price' => 'required|numeric|min:0|lte:highest_price',
@@ -54,8 +54,8 @@ class RestaurantController extends Controller
 
         
         if ($request->hasFile('image')) {
-            $image_path = $request->file('image')->store('public/restaurants');
-            $product->image_name = basename($image_path);
+            $image = $request->file('image')->store('public/restaurants');
+            $restaurant->image = basename($image);
         }
         else {
             $restaurant->image = '';
@@ -70,8 +70,6 @@ class RestaurantController extends Controller
         $restaurant->closing_time = $request->input('closing_time');
         $restaurant->seating_capacity = $request->input('seating_capacity');
         $restaurant->save();
-
-        
 
         return redirect()->route('admin.restaurants.index')->with('flash_message', '店舗を登録しました。');
     }
