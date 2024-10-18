@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Restaurant;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class RestaurantController extends Controller
 {
@@ -30,6 +31,7 @@ class RestaurantController extends Controller
 
     public function create(Request $request)
     {
+        $categories = Category::all();
         return view('admin.restaurants.create');
     }
 
@@ -76,6 +78,7 @@ class RestaurantController extends Controller
 
     public function edit(Restaurant $restaurant)
     {
+        $categories = Category::all();
         return view('admin.restaurants.edit', compact('restaurant'));
     }
 
