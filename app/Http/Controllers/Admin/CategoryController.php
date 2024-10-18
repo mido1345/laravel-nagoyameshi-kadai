@@ -9,10 +9,8 @@ use App\Models\Category;
 class CategoryController extends Controller
 {
     public function index(Request $request) {
-        // 検索ボックスに入力されたキーワードを取得する
         $keyword = $request->input('keyword');
 
-        // キーワードが存在すれば検索を行い、そうでなければ全件取得する
         if ($keyword) {
             $categories = Category::where('name', 'like', "%{$keyword}%")->paginate(15);
         } else {
