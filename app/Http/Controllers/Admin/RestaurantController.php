@@ -31,7 +31,6 @@ class RestaurantController extends Controller
 
     public function create(Request $request)
     {
-        $categories = Category::all();
         return view('admin.restaurants.create');
     }
 
@@ -78,7 +77,6 @@ class RestaurantController extends Controller
 
     public function edit(Restaurant $restaurant)
     {
-        $categories = Category::all();
         return view('admin.restaurants.edit', compact('restaurant'));
     }
 
