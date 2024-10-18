@@ -54,7 +54,7 @@ class RestaurantController extends Controller
 
         
         if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('storage/public/restaurants');
+            $image = $request->file('image')->store('public/restaurants');
             $restaurant->image = basename($image);
         }
         else {
@@ -105,7 +105,7 @@ class RestaurantController extends Controller
         $restaurant->seating_capacity = $request->input('seating_capacity');
 
         if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('storage/public/restaurants');
+            $image = $request->file('image')->store('public/restaurants');
             $restaurant->image = basename($image);
         }
         $restaurant->update();
