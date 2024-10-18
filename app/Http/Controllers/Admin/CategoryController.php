@@ -26,9 +26,9 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required',]);
 
-        $categories = new Category();
-        $categories->name = $request->input('name');
-        $categories->save();
+        $category = new Category();
+        $category->name = $request->input('name');
+        $category->save();
 
         return redirect()->route('admin.categories.index')->with('flash_message', 'カテゴリを登録しました。');
         }
@@ -38,7 +38,7 @@ class CategoryController extends Controller
             'name' => 'required',]);
 
         $category->name = $request->input('name');
-        $category->save();
+        $category->update();
 
         return redirect()->route('admin.categories.index')->with('flash_message', 'カテゴリを編集しました。');
         }

@@ -12,11 +12,12 @@ use App\Models\Restaurant;
 
 class RestaurantTest extends TestCase
 {
-     use RefreshDatabase;
 
      /**
      * A basic feature test example.
      */
+    
+     use RefreshDatabase;
 
      //indexアクション（店舗一覧ページ）
     public function test_guest_cannot_access_restaurant_index()
