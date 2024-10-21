@@ -133,6 +133,28 @@
                             <span>{{ number_format($restaurant->seating_capacity) }}席</span>
                         </div>
                     </div>
+
+                    <div class="row pb-2 mb-2 border-bottom">
+                        <div class="col-2">
+                            <span class="fw-bold">カテゴリ</span>
+                        </div>
+
+                        <div class="col d-flex">
+                            @if ($restaurant->categories()->exists())
+                                @foreach ($restaurant->categories as $index => $category)
+                                    <div>
+                                        @if ($index === 0)
+                                            {{ $category->name }}
+                                        @else
+                                            {{ '、' . $category->name }}
+                                        @endif
+                                    </div>
+                                @endforeach
+                            @else
+                                <span>未設定</span>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

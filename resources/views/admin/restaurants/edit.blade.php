@@ -160,6 +160,41 @@
                         </div>
                     </div>
 
+                    @for ($i = 0; $i < 3; $i++)
+                        <div class="form-group row mb-3">
+                            <label for="category{{ $i + 1 }}" class="col-md-5 col-form-label text-md-left fw-bold">カテゴリ{{ $i + 1 }}（3つまで選択可）</label>
+
+                            <div class="col-md-7">
+                                <select class="form-control form-select" id="category{{ $i + 1 }}" name="category_ids[]">
+                                    <option value="">選択なし</option>
+                                    @if (old('category_ids'))
+                                        @foreach ($categories as $category)
+                                            @if ($category->id == old("category_ids.{$i}"))
+                                                <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                            @else
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endif
+                                        @endforeach
+                                    @else
+                                        @if (array_key_exists($i, $category_ids))
+                                            @foreach ($categories as $category)
+                                                @if ($category->id == $category_ids[$i])
+                                                    <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                                @else
+                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        @endif
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                    @endfor
+
                     <hr class="my-4">
 
                     <div class="form-group d-flex justify-content-center mb-4">
