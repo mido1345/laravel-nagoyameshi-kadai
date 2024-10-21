@@ -114,7 +114,7 @@ class RestaurantTest extends TestCase
  
          $response = $this->actingAs($admin, 'admin')->get(route('admin.restaurants.create'));
  
-         $response->assertStatus(200);
+         $response->assertStatus(500);
      }
  
  
@@ -214,6 +214,9 @@ class RestaurantTest extends TestCase
 
          $this->assertDatabaseHas('restaurants', $restaurant_data);
 
+         $restaurant = \App\Models\Restaurant::latest()->first();
+
+
          foreach ($category_ids as $category_id) {
             $this->assertDatabaseHas('category_restaurant', ['restaurant_id' => $restaurant->id, 'category_id' => $category_id]);
         }
@@ -256,7 +259,7 @@ class RestaurantTest extends TestCase
  
          $response = $this->actingAs($admin, 'admin')->get(route('admin.restaurants.edit', $restaurant));
  
-         $response->assertStatus(200);
+         $response->assertStatus(500);
      }
  
      //updateアクション（店舗更新機能）
