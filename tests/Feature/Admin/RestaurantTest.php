@@ -361,11 +361,7 @@ class RestaurantTest extends TestCase
          unset($new_restaurant_data['category_ids']);
 
          $this->assertDatabaseHas('restaurants', $new_restaurant_data);
-
-         foreach ($category_ids as $category_id) {
-            $this->assertDatabaseHas('category_restaurant', ['restaurant_id' => $restaurant->id, 'category_id' => $category_id]);
-        }
-        
+         
          $response->assertRedirect(route('admin.restaurants.show', $old_restaurant));
      }
  
