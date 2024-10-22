@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Term;
 
 class TermController extends Controller
 {
@@ -15,7 +16,7 @@ class TermController extends Controller
     }
     
     //editアクション（利用規約編集ページ）
-    public function edit(Request $request, Term $term)
+    public function edit(Term $term)
     {
         $terms = Term::first();
         return view('admin.terms.edit', compact('term'));
@@ -28,8 +29,9 @@ class TermController extends Controller
             'content' => 'required',
         ]);
 
+        $term = new Term();
         $term->content = $request->input('content');
-        $term->update();
+        $term->save();
 
         return redirect()->route('admin.terms.index')
          ->with('flash_message', '利用規約を編集しました。');

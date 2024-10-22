@@ -11,7 +11,7 @@ class CompanyController extends Controller
     //indexアクション（会社概要ページ）
     public function index()
     {
-        $company = Company::orderBy('created_at')->first();
+        $company = Company::first();
         return view('admin.company.index', compact('company'));
     }
 
