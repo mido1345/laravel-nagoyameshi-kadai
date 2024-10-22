@@ -11,14 +11,13 @@ class TermController extends Controller
     //indexアクション（利用規約ページ）
     public function index()
     {
-        $company = Term::orderBy('created_at')->first();
+        $term = Term::first();
         return view('admin.terms.index', compact('term'));
     }
     
     //editアクション（利用規約編集ページ）
     public function edit(Term $term)
     {
-        $terms = Term::first();
         return view('admin.terms.edit', compact('term'));
     }
 
@@ -28,8 +27,7 @@ class TermController extends Controller
         $request->validate([
             'content' => 'required',
         ]);
-
-        $term = new Term();
+        
         $term->content = $request->input('content');
         $term->save();
 

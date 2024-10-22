@@ -49,7 +49,7 @@ class TermTest extends TestCase
 
         $response = $this->actingAs($admin, 'admin')->get(route('admin.terms.index'));
 
-        $response->assertStatus(500);
+        $response->assertStatus(200);
     }
 
     // editアクション（利用規約編集ページ）
