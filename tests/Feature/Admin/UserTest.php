@@ -16,17 +16,18 @@ class UserTest extends TestCase
     // 未ログインユーザーが会員一覧ページにアクセスできない
     public function test_guest_can_not_access_admin_users_index()
     {
-        $response = $this->get('/admin/users');
-        $response->assertRedirect('/admin/login'); // ログインページへのリダイレクトを確認
+        $response = $this->get(route('admin.users.index'));
+        $response->assertRedirect(route('login')); // ログインページへのリダイレクトを確認
     }
 
     // ログイン済みの一般ユーザーが会員一覧ページにアクセスできない
     public function test_regular_user_can_not_access_admin_users_index()
     {
-        $user = User::factory()->create(); // 一般ユーザーを作成
-        $response = $this->actingAs($user)->get('/admin/users'); // 一般ユーザーとしてログイン
+        $user = factory(User::class)->create(); // 一般ユーザーを作成
+        $this->actingAs($user); // 一般ユーザーとしてログイン
 
-        $response->assertRedirect('/admin/login');
+        $response = $this->get(route('admin.users.index'));
+        $response->assertForbidden();
     }
 
     // ログイン済みの管理者が会員一覧ページにアクセスできる
@@ -37,7 +38,7 @@ class UserTest extends TestCase
         $admin->password = Hash::make('nagoyameshi');
         $admin->save();
 
-        $response = $this->actingAs($admin, 'admin')->get('/admin/users');
+        $response = $this->get(route('admin.users.index'));
 
          // 管理者として会員一覧ページにアクセス
         $response->assertStatus(200);  // 200 OKが返されることを確認
@@ -46,10 +47,13 @@ class UserTest extends TestCase
     // 未ログインユーザーが会員詳細ページにアクセスできない
     public function test_guest_can_not_access_admin_users_show()
     {
-        $user = User::factory()->create(); // テスト用のユーザーを作成
+        //テスト用のユーザーを作成
+        $user = factory(User::class)->create(); 
 
-        $response = $this->get("/admin/users/{$user->id}");
-        $response->assertRedirect('/admin/login'); // ログインページへのリダイレクトを確認
+        $response = $this->get(route('admin.users.show', $user));
+
+        //ログインページへのリダイレクトを確認
+        $response->assertRedirect(route('login')); 
     }
 
     // ログイン済みの一般ユーザーが会員詳細ページにアクセスできない

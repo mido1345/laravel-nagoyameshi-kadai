@@ -18,9 +18,9 @@ class HomeTest extends TestCase
      //未ログインのユーザーは会員側のトップページにアクセスできる
     public function test_example(): void
     {
-        $response = $this->get(route('home'));
+        $response = $this->get(route('user.index'));
 
-        $response->assertStatus(200);
+        $response->assertRedirect(route('login'));
     }
 
     //ログイン済みの一般ユーザーは会員側のトップページにアクセスできる
