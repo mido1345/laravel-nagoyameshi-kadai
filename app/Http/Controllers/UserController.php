@@ -7,6 +7,7 @@ use Illuminate\Validation\Rule;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
+
 class UserController extends Controller
 {
     //indexアクション（会員情報ページ）
