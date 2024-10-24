@@ -41,7 +41,7 @@
     <div class="bg-light mb-4 py-4">
         <div class="container nagoyameshi-container">
             <h2 class="mb-3">キーワードから探す</h2>
-            <form method="GET" action="#" class="nagoyameshi-user-search-box">
+            <form method="GET" action="{{ route('restaurants.index') }}" class="nagoyameshi-user-search-box">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="店舗名・エリア・カテゴリ" name="keyword">
                     <button type="submit" class="btn text-white shadow-sm nagoyameshi-btn">検索</button>
@@ -89,7 +89,7 @@
         <h2 class="mb-3">カテゴリから探す</h2>
         <div class="row row-cols-xl-6 row-cols-md-3 row-cols-2 g-3 mb-3">
             <div class="col">
-                <a href="#" class="nagoyameshi-card-link">
+                <a href="{{ url("/restaurants/?category_id={$categories->where('name', '和食')->value('id')}") }}" class="nagoyameshi-card-link">
                     <div class="card text-white">
                         <img src="{{ asset('/images/washoku.jpg') }}" class="card-img nagoyameshi-vertical-card-image" alt="和食">
                         <div class="card-img-overlay d-flex justify-content-center align-items-center nagoyameshi-overlay-background">
@@ -100,7 +100,7 @@
             </div>
 
             <div class="col">
-                <a href="#" class="nagoyameshi-card-link">
+                <a href="{{ url("/restaurants/?category_id={$categories->where('name', 'うどん')->value('id')}") }}" class="nagoyameshi-card-link">
                     <div class="card text-white">
                         <img src="{{ asset('/images/udon.jpg') }}" class="card-img nagoyameshi-vertical-card-image" alt="うどん">
                         <div class="card-img-overlay d-flex justify-content-center align-items-center nagoyameshi-overlay-background">
@@ -111,7 +111,7 @@
             </div>
 
             <div class="col">
-                <a href="#" class="nagoyameshi-card-link">
+                <a href="{{ url("/restaurants/?category_id={$categories->where('name', '丼物')->value('id')}") }}" class="nagoyameshi-card-link">
                     <div class="card text-white">
                         <img src="{{ asset('/images/don.jpg') }}" class="card-img nagoyameshi-vertical-card-image" alt="丼物">
                         <div class="card-img-overlay d-flex justify-content-center align-items-center nagoyameshi-overlay-background">
@@ -122,7 +122,7 @@
             </div>
 
             <div class="col">
-                <a href="#" class="nagoyameshi-card-link">
+                <a href="{{ url("/restaurants/?category_id={$categories->where('name', 'ラーメン')->value('id')}") }}" class="nagoyameshi-card-link">
                     <div class="card text-white">
                         <img src="{{ asset('/images/ramen.jpg') }}" class="card-img nagoyameshi-vertical-card-image" alt="ラーメン">
                         <div class="card-img-overlay d-flex justify-content-center align-items-center nagoyameshi-overlay-background">
@@ -133,7 +133,7 @@
             </div>
 
             <div class="col">
-                <a href="#" class="nagoyameshi-card-link">
+                <a href="{{ url("/restaurants/?category_id={$categories->where('name', 'おでん')->value('id')}") }}" class="nagoyameshi-card-link">
                     <div class="card text-white">
                         <img src="{{ asset('/images/oden.jpg') }}" class="card-img nagoyameshi-vertical-card-image" alt="おでん">
                         <div class="card-img-overlay d-flex justify-content-center align-items-center nagoyameshi-overlay-background">
@@ -144,7 +144,7 @@
             </div>
 
             <div class="col">
-                <a href="#" class="nagoyameshi-card-link">
+                <a href="{{ url("/restaurants/?category_id={$categories->where('name', '揚げ物')->value('id')}") }}" class="nagoyameshi-card-link">
                     <div class="card text-white">
                         <img src="{{ asset('/images/fried.jpg') }}" class="card-img nagoyameshi-vertical-card-image" alt="揚げ物">
                         <div class="card-img-overlay d-flex justify-content-center align-items-center nagoyameshi-overlay-background">
@@ -159,7 +159,7 @@
                 @if ($category->name === '和食' || $category->name === 'うどん' || $category->name === '丼物' || $category->name === 'ラーメン' || $category->name === 'おでん' || $category->name === '揚げ物')
                     @continue
                 @else
-                    <a href="#" class="btn btn-outline-secondary btn-sm me-1 mb-2">{{ $category->name }}</a>
+                    <a href="{{ url("/restaurants/?category_id={$category->id}") }}" class="btn btn-outline-secondary btn-sm me-1 mb-2">{{ $category->name }}</a>
                 @endif
             @endforeach
         </div>
