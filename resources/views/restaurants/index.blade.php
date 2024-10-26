@@ -104,7 +104,7 @@
 
                 @foreach ($restaurants as $restaurant)
                     <div class="mb-3">
-                        <a href="#" class="link-dark nagoyameshi-card-link">
+                        <a href="{{ route('restaurants.show', $restaurant) }}" class="link-dark nagoyameshi-card-link">
                             <div class="card h-100">
                                 <div class="row g-0">
                                     <div class="col-md-4">
