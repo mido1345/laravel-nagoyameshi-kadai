@@ -65,7 +65,15 @@
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('user.index') }}">会員情報</a>
-                                <a class="dropdown-item" href="#">有料プラン登録</a>
+
+                                @if (Auth::user()->subscribed('premium_plan'))
+                                    <a class="dropdown-item" href="#">予約一覧</a>
+                                    <a class="dropdown-item" href="#">お気に入り一覧</a>
+                                    <a class="dropdown-item" href="{{ route('subscription.edit') }}">お支払い方法</a>
+                                    <a class="dropdown-item" href="{{ route('subscription.cancel') }}">有料プラン解約</a>
+                                @else
+                                    <a class="dropdown-item" href="{{ route('subscription.create') }}">有料プラン登録</a>
+                                @endif
 
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('logout') }}"

@@ -123,7 +123,11 @@
 
                         <div class="col">
                             <span>
-                                未設定
+                                @if ($user->subscribed('premium_plan'))
+                                    有料会員
+                                @else
+                                    無料会員
+                                @endif
                             </span>
                         </div>
                     </div>
