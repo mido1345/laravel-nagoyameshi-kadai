@@ -32,7 +32,6 @@ class SubscriptionTest extends TestCase
 
         $response = $this->actingAs($user)->get(route('subscription.create'));
 
-
         $response->assertStatus(302);
     }
     //ログイン済みの有料会員は有料プラン登録ページにアクセスできない
@@ -82,9 +81,9 @@ class SubscriptionTest extends TestCase
     
         $response->assertRedirect(route('home'));
  
-         $user->refresh();
-
-         $this->assertTrue($user->subscribed('premium_plan'));
+        $user->refresh();
+    
+        $this->assertTrue($user->subscribed('premium_plan'));
     }
 
     //ログイン済みの有料会員は有料プランに登録できない

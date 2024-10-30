@@ -57,29 +57,21 @@ Route::group(['middleware' => 'guest:admin'], function () {
     Route::get('terms', [TermController::class, 'index'])->name('terms.index');
     Route::resource('restaurants', RestaurantController::class)->only(['index', 'show']);
 
-});
 
     Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('user', UserController::class)->only(['index', 'edit', 'update']);
     
     Route::group(['middleware' => NotSubscribed::class], function () {
-        Route::group(['prefix' => '/subscription', 'as' => 'subscription.'], function () {
-            Route::get('/create', [SubscriptionController::class, 'create'])->name('create');
-            Route::post('/', [SubscriptionController::class, 'store'])->name('store');
+        Route::get('subscription/create', [SubscriptionController::class, 'create'])->name('subscription.create');
+            Route::post('subscription', [SubscriptionController::class, 'store'])->name('subscription.store');
         });
-});
 
-Route::group(['middleware' => Subscribed::class], function () {
+        Route::group(['middleware' => [Subscribed::class]], function () {
+            Route::get('subscription/edit', [SubscriptionController::class, 'edit'])->name('subscription.edit');
+            Route::patch('subscription', [SubscriptionController::class, 'update'])->name('subscription.update');
+            Route::get('subscription/cancel', [SubscriptionController::class, 'cancel'])->name('subscription.cancel');
+            Route::delete('subscription', [SubscriptionController::class, 'destroy'])->name('subscription.destroy');
 
-    Route::resource('restaurants.reviews', ReviewController::class)
-        ->only(['create', 'store', 'edit', 'update', 'destroy'])
-        ->parameters(['reviews' => 'review']);
-
-    Route::group(['prefix' => '/subscription', 'as' => 'subscription.'], function () {
-        Route::get('/edit', [SubscriptionController::class, 'edit'])->name('edit');
-        Route::match(['put', 'patch'], '/', [SubscriptionController::class, 'update'])->name('update');
-        Route::get('/cancel', [SubscriptionController::class, 'cancel'])->name('cancel');
-        Route::delete('/', [SubscriptionController::class, 'destroy'])->name('destroy');
     });
 });
 });
