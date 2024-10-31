@@ -14,8 +14,14 @@ class SubscriptionController extends Controller
     //createアクション（有料プラン登録ページ）
     public function create(){
 
+        $user = Auth::user();
+
+        if ($user->subscribed('premium_plan')) {
+            return redirect()->route('subscription.edit');
+        }
+
         $intent = Auth::user()->createSetupIntent();
-        
+
         return view('subscription.create', compact('intent'));
 
        }

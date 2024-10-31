@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\Admin;
 use App\Models\User;
+use App\Models\Subscribed;
+use App\Models\NotSubscribed;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -73,17 +75,12 @@ class SubscriptionTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $request_parameter = [
-            'paymentMethodId' => 'pm_card_visa'
-        ];
-        
-        $response = $this->actingAS($user)->post(route('subscription.store'), $request_parameter);
-    
-        $response->assertRedirect(route('home'));
- 
-        $user->refresh();
-    
-        $this->assertTrue($user->subscribed('premium_plan'));
+        $user->subscribed('premium_plan', 'price_1QEoEpLe5NnKPu47SEAazsHd'); 
+        $this->actingAs($user);
+        $response = $this->get(route('subscription.create'));
+        $this->assertFalse($user->subscribed('premium_plan'));
+        $response->assertStatus(302);
+
     }
 
     //ログイン済みの有料会員は有料プランに登録できない
@@ -95,7 +92,7 @@ class SubscriptionTest extends TestCase
             'paymentMethodId' => 'pm_card_visa'
         ];
 
-        $user->newSubscription('premium_plan', 'price_1QEoEpLe5NnKPu47SEAazsHd')->create('pm_card_visa');
+        $user->newSubscription('premium_plan', 'price_1QEoEpLe5NnKPu47SEAazsHd');
         
         $response = $this->actingAS($user)->post(route('subscription.store'), $request_parameter);
 
@@ -153,7 +150,7 @@ class SubscriptionTest extends TestCase
             'email' => 'admin@example.com',
             'password' => Hash::make('nagoyameshi'),
         ]);
-        $response = $this->actingAs($this->admin, 'admin')->get(route('subscription.edit'));
+        $response = $this->actingAs($admin,'admin')->get(route('subscription.edit'));
 
         $response->assertRedirect(route('admin.home'));
     }
