@@ -78,7 +78,7 @@ Route::group(['middleware' => 'guest:admin'], function () {
         Route::get('/restaurants/{restaurant}/reviews/create', [ReviewController::class, 'create'])->middleware(Subscribed::class)->name('restaurants.reviews.create');
         Route::post('/restaurants/{restaurant}/reviews', [ReviewController::class, 'store'])->middleware(Subscribed::class) ->name('restaurants.reviews.store');
         Route::get('/restaurants/{restaurant}/reviews/{review}/edit', [ReviewController::class, 'edit'])->middleware(Subscribed::class)->name('restaurants.reviews.edit');
-        Route::put('/restaurants/{restaurant}/reviews/{review}', [ReviewController::class, 'update'])->middleware(Subscribed::class)->name('restaurants.reviews.update');
+        Route::patch('/restaurants/{restaurant}/reviews/{review}', [ReviewController::class, 'update'])->middleware(Subscribed::class)->name('restaurants.reviews.update');
         Route::delete('/restaurants/{restaurant}/reviews/{review}', [ReviewController::class, 'destroy'])->middleware(Subscribed::class)->name('restaurants.reviews.destroy'); 
 
 });

@@ -7,9 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
 
+
 class Restaurant extends Model
 {
     use HasFactory,Sortable;
+
+    protected $fillable = [
+        'content',
+        'score',
+        'restaurant_id',
+        'user_id',
+    ];
 
     public function categories() {
         return $this->belongsToMany(Category::class)->withTimestamps();

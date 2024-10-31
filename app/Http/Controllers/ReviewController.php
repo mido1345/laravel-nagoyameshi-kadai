@@ -50,33 +50,36 @@ class ReviewController extends Controller
     //editアクション（レビュー編集ページ）
     public function edit(Restaurant $restaurant, Review $review)
     {
-        if($review->user_id !== Auth::id()) {
-            return redirect()->route('restaurants.reviews.index',$restaurant)->with('error_message', '不正なアクセスです。');
-        }else{
-            return view('reviews.edit', compact('restaurant','review'));
-        }   
+        if ($review->user_id !== Auth::id()) {
+            return redirect()->route('restaurants.reviews.index', $restaurant)->with('error_message', '不正なアクセスです。');
+        }
+
+        return view('reviews.edit', compact('restaurant', 'review'));
     }
 
     //updateアクション（レビュー更新機能）
     public function update(Request $request, Restaurant $restaurant, Review $review)
     {
-        if($review->user_id !== Auth::id()) {
-            return redirect()->route('restaurants.reviews.index',$restaurant)->with('error_message','不正なアクセスです。');
-        } else {
-            $request->validate([
-                'score' => ['required','numeric','digits_between:1,5'],
-                'content' => ['required']
-            ]);
-    
-            $review->score = $request->input('score');
-            $review->content = $request->input('content');
-            $review->restaurant_id = $restaurant->id;
-            $review->user_id = Auth::user()->id;
-            $review->save();
+        $request->validate([
+            'score'=> 'required|numeric|min:1|max:5',
+            'content' => 'required',
+        ]);
 
-            return redirect()->route('restaurants.reviews.index',$restaurant)->with('flash_message','レビューを編集しました。');
+        $user_id = Auth::id();
+
+        if($review->user_id !== $user_id){
+            return to_route('restaurants.reviews.index')->with('error_message', '不正なアクセスです。');
         }
-    }
+            $review->content = $request->input('content');
+            $review->score = $request->input('score');
+            $review->restaurant_id = $restaurant->id;
+            $review->user_id = Auth::id();
+
+            $review->update();
+    
+            return to_route('restaurants.reviews.index', $restaurant)->with('flash_message', 'レビューを編集しました。');
+         }
+    
 
     //destroyアクション（レビュー削除機能）
     public function destroy(Restaurant $restaurant, Review $review)

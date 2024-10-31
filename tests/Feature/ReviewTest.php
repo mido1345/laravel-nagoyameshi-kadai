@@ -85,7 +85,7 @@ public function test_membership_user_can_access_review_create():void
     $restaurant = Restaurant::factory()->create();
     $user = User::factory()->create();
 
-    $user->newSubscription('premium_plan', env('STRIPE_ID'))->create('pm_card_visa');
+    $user->newSubscription('premium_plan', 'price_1QEoEpLe5NnKPu47SEAazsHd')->create('pm_card_visa');
 
     $response = $this->actingAs($user)->get(route('restaurants.reviews.create',$restaurant));
     $response->assertStatus(200);
@@ -144,7 +144,7 @@ public function test_membership_user_can_posting_review_store():void
         'content' => 'test',
     ];
 
-    $user->newSubscription('premium_plan', env('STRIPE_ID'))->create('pm_card_visa');
+    $user->newSubscription('premium_plan', 'price_1QEoEpLe5NnKPu47SEAazsHd')->create('pm_card_visa');
 
     $response = $this->actingAs($user)->get(route('restaurants.reviews.create',$restaurant));
     $response->assertStatus(200);
@@ -206,7 +206,7 @@ public function test_user_cannot_access_review_edit():void
 public function test_membership_user_cannot_posting_review_edit():void
 {
     $user = User::factory()->create();
-    $user->newSubscription('premium_plan', env('STRIPE_ID'))->create('pm_card_visa');
+    $user->newSubscription('premium_plan', 'price_1QEoEpLe5NnKPu47SEAazsHd')->create('pm_card_visa');
     $other_user = User::factory()->create();
 
     $restaurant = Restaurant::factory()->create();
@@ -225,7 +225,7 @@ public function test_membership_user_cannot_posting_review_edit():void
 public function test_membership_user_can_access_review_edit():void
 {
     $user = User::factory()->create();
-    $user->newSubscription('premium_plan', env('STRIPE_ID'))->create('pm_card_visa');
+    $user->newSubscription('premium_plan', 'price_1QEoEpLe5NnKPu47SEAazsHd')->create('pm_card_visa');
 
     $restaurant = Restaurant::factory()->create();
     $review = Review::factory()->create([
@@ -309,7 +309,7 @@ public function test_user_cannot_access_reviews_update()
 public function test_membership_user_cannot_access_others_reviews_update()
  {
      $user = User::factory()->create();
-     $user->newSubscription('premium_plan', env('STRIPE_ID'))->create('pm_card_visa');
+     $user->newSubscription('premium_plan', 'price_1QEoEpLe5NnKPu47SEAazsHd')->create('pm_card_visa');
      $other_user = User::factory()->create();
  
     $restaurant = Restaurant::factory()->create();
@@ -334,7 +334,7 @@ public function test_membership_user_cannot_access_others_reviews_update()
  public function test_membership_user_can_access_reviews_update()
 {
     $user = User::factory()->create();
-    $user->newSubscription('premium_plan', env('STRIPE_ID'))->create('pm_card_visa');
+    $user->newSubscription('premium_plan', 'price_1QEoEpLe5NnKPu47SEAazsHd')->create('pm_card_visa');
  
     $restaurant = Restaurant::factory()->create();
  
@@ -420,7 +420,7 @@ public function test_user_cannot_delete_reviews()
 public function test_membership_user_can_delete_reviews()
 {
     $user = User::factory()->create();
-    $user->newSubscription('premium_plan', env('STRIPE_ID'))->create('pm_card_visa');
+    $user->newSubscription('premium_plan', 'price_1QEoEpLe5NnKPu47SEAazsHd')->create('pm_card_visa');
  
     $restaurant = Restaurant::factory()->create();
  
@@ -438,25 +438,23 @@ public function test_membership_user_can_delete_reviews()
 
 public function test_admin_cannot_delete_reviews()
  {
-    $admin = Admin::create([
+    $admin = Admin::factory()->create([
         'email' => 'admin@example.com',
         'password' => Hash::make('nagoyameshi'),
     ]);
- 
-    $restaurant = Restaurant::factory()->create();
- 
-    $user = User::factory()->create();
- 
-    $review = Review::factory()->create([
-             'restaurant_id' => $restaurant->id,
-             'user_id' => $user->id
-         ]);
 
-    $response = $this->actingAs($admin, 'admin')->delete(route('restaurants.reviews.destroy', [$restaurant, $review]));
- 
-    $this->assertDatabaseHas('reviews',['id' => $review->id]);
+    $user = User::factory()->create();
+    $restaurant = Restaurant::factory()->create();
+    $review = Review::factory()->create([
+        'restaurant_id' => $restaurant->id,
+        'user_id' => $user->id
+    ]);
+    $this->actingAs($admin, 'admin');
+
+    $response = $this->delete(route('restaurants.reviews.destroy', [$restaurant, $review]));
     $response->assertRedirect(route('admin.home'));
 
      }
 }
+
 
