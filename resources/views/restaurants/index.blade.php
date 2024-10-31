@@ -133,6 +133,10 @@
                                                 @endif
                                             </div>
                                             <hr class="my-2">
+                                            <p class="mb-1">
+                                                <span class="nagoyameshi-star-rating me-1" data-rate="{{ round($restaurant->reviews->avg('score') * 2) / 2 }}"></span>
+                                                {{ number_format(round($restaurant->reviews->avg('score'), 2), 2) }}（{{ $restaurant->reviews->count() }}件）
+                                            </p>
                                             <div class="mb-1">
                                                 <span>{{ number_format($restaurant->lowest_price) }}円～{{ number_format($restaurant->highest_price) }}円</span>
                                             </div>
