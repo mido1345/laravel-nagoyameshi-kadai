@@ -2,14 +2,12 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Models\Admin;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
-use App\Models\Reservaton;
-use App\Models\Rrestaurant;
-use App\Models\User;
-use App\Models\Admin;
 
 class HomeTest extends TestCase
 {
@@ -36,11 +34,14 @@ class HomeTest extends TestCase
     //ログイン済みの管理者は管理者側のトップページにアクセスできる
     public function test_admin_can_access_admin_home()
     {
-        $adminUser = Admin::factory()->create();
-
-        $response = $this->actingAs($admin, 'admin')->get(route('admin.home'));
-
-        $response->assertStatus(200);
+        $admin = new Admin();
+         $admin->email = 'admin@example.com';
+         $admin->password = Hash::make('nagoyameshi');
+         $admin->save();
+ 
+         $response = $this->actingAs($admin, 'admin')->get(route('admin.home'));
+ 
+         $response->assertStatus(200);
     }
 
 }
