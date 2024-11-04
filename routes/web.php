@@ -10,6 +10,7 @@ use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\FavoriteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,9 @@ Route::group(['middleware' => 'guest:admin'], function () {
             Route::resource('reservations', ReservationController::class)->only(['index', 'destroy']);
             Route::resource('restaurants.reservations', ReservationController::class)->only(['create', 'store']);
 
+            Route::get('favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+            Route::post('favorites/{restaurant_id}', [FavoriteController::class, 'store'])->name('favorites.store');
+            Route::delete('favorites/{restaurant_id}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
         });
     });
 });

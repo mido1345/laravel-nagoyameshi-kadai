@@ -158,6 +158,26 @@
                             @endif
                         </div>
                     </div>
+
+                    @guest
+                        <form action="{{ route('favorites.store', $restaurant->id) }}" method="post" class="text-center">
+                            @csrf
+                            <button type="submit" class="btn text-white shadow-sm w-50 nagoyameshi-btn">♥ お気に入り追加</button>
+                        </form>
+                    @else
+                        @if (Auth::user()->favorite_restaurants()->where('restaurant_id', $restaurant->id)->doesntExist())
+                            <form action="{{ route('favorites.store', $restaurant->id) }}" method="post" class="text-center">
+                                @csrf
+                                <button type="submit" class="btn text-white shadow-sm w-50 nagoyameshi-btn">♥ お気に入り追加</button>
+                            </form>
+                        @else
+                            <form action="{{ route('favorites.destroy', $restaurant->id) }}" method="post" class="text-center">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-outline-primary shadow-sm w-50 nagoyameshi-remove-favorite-button">♥ お気に入り解除</button>
+                            </form>
+                        @endif
+                    @endguest
                 </div>
             </div>
         </div>
