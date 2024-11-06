@@ -109,6 +109,11 @@ class RestaurantController extends Controller
             'closing_time' => 'required|after:opening_time',
             'seating_capacity' => 'required|numeric|min:0'
         ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image')->store('public/restaurants');
+            $restaurant->image = basename($image);
+        }
         
         $restaurant->name = $request->input('name');
         $restaurant->description = $request->input('description');
@@ -121,10 +126,6 @@ class RestaurantController extends Controller
         $restaurant->seating_capacity = $request->input('seating_capacity');
         $restaurant->save();
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('public/restaurants');
-            $restaurant->image = basename($image);
-        }
 
         $category_ids = array_filter($request->input('category_ids'));
         $restaurant->categories()->sync($category_ids);
